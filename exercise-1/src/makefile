@@ -1,3 +1,5 @@
+.PHONY: all clean
+
 SERVER_FILE = build/server
 CLIENT_FILE = build/client
 BUILD_DIRECTORY = build
