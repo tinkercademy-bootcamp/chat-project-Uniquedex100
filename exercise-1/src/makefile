@@ -10,12 +10,12 @@ all: build_dir server client
 build_dir: 
 		mkdir -p build
 
-server: 
-		gcc server.cpp -o $(SERVER_FILE)
+server: tcp_echo_server.cc
+		g++ tcp_echo_server.cc -o $(SERVER_FILE)
 
-client: 
-		gcc client.cpp -o $(CLIENT_FILE)
+client: tcp_echo_client.cc
+		g++ tcp_echo_client.cc -o $(CLIENT_FILE)
 
 clean: 
-		rm -rf build
+		rm -rf $(BUILD_DIRECTORY)
 		
