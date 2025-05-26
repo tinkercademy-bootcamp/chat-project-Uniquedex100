@@ -74,26 +74,42 @@ Rebuild happens if either the target file does not exist, or any dependency is n
 - Read through the code in `src/`
 - Answer any `#Questions` as a comment
 - Commit and push your changes to git
+  - Done
 - Each commit should be responding to a single task or question
+  - Will keep in mind now onwards
 - Why is it important to keep your commit to a single task or question?
-- Is it better to have a lot of very small commits, or one big commit when 
-  everything is working?
+  - Saves time that we might have to put for searching commits.
+- Is it better to have a lot of very small commits, or one big commit when everything is working?
+  - Once everything is working, we should shift towards just having one big commit.
 - What are the most important commands to know in git?
+  checkout
+  add
+  push
+  pull
+  rebase
+  commit etc.
 
 ## Introduction to Sockets
 
-- Read the code in `src/tcp-echo-client.cc` and add a way to change the 
-  message sent using command line arguments
+- Read the code in `src/tcp-echo-client.cc` and add a way to change the message sent using command line arguments
+Done
 - **Example**: `./client "hello message from the command prompt"` should send
   `"hello message from the command prompt"` to the server
 - Commit your changes into git
+Done
 - What do all these headers do?
+  - They are for input output stream, basic socket instructions, some types, socket addresses, system data types, read write etc.
 - How do you find out which part of the below code comes from which header?
-- How do you change the code so that you are sending messages to servers
-  other than localhost?
+  - we can use the manual pages for this. Like man 2 socket, man 3 cout, etc.
+  section 2 is for system calls, section 3 is for library functions and so on...
+- How do you change the code so that you are sending messages to servers other than localhost?
+  - Change the port number to 35000 and use the ip address of the other server that's publicly visible.
 - How do you change the code to send to a IPv6 address instead of IPv4?
+  - use AF_INET6, address.sin6_addr etc. wherever you have used normal versions. They would help you adjust the data type sizes so that it can accommodate the much larger ipv6 addresses.
 - **Bonus**: How do you change the client code to connect by hostname instead
   of IP address?
+  - use netdb.h to get the ip addresses from hostnames,
+
   
 ## Introduction to Memory Management
 
@@ -102,6 +118,7 @@ Rebuild happens if either the target file does not exist, or any dependency is n
 - What is happening in line 31 of `tcp-echo-client.cc`?
   `if (connect(my_sock, (sockaddr *)&address, sizeof(address)) < 0) {`
 - What is the difference between a pointer and a reference?
+
 - When is it better to use a pointer?
 - When is it better to use a reference?
 - What is the difference between `std::string` and a C-style string?
