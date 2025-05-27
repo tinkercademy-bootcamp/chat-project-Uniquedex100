@@ -75,6 +75,7 @@
 
 - After your experiments with Compiler Explorer, do you have any updates for
   your answers in exercise-2?
+  - Nope, Most of the answers are valid even now.
 
 ### Bonus: Do Not Watch Now 
 
