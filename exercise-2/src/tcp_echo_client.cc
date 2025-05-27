@@ -43,6 +43,7 @@ void connect_to_server(int sock, sockaddr_in &server_address) {
 void send_and_receive_message(int sock, const std::string &message) {
   const int kBufferSize = 1024;
   // #Question - is buffer the best name we can use?
+  // Not exactly, but it's the most commonly used and relevant too.
   char buffer[kBufferSize] = {0};
 
   // Send the message to the server
@@ -61,6 +62,7 @@ void send_and_receive_message(int sock, const std::string &message) {
 }
 
 // #Question - what can be improved in this function?
+// Providing default args instead of failing directly.
 std::string read_args(int argc, char *argv[]) {
   std::string message = "Hello from client";
   if (argc == 1) {
@@ -73,10 +75,21 @@ std::string read_args(int argc, char *argv[]) {
   return message;
 }
 
+struct temp_struct {
+  int a;
+  std::string b;
+  temp_struct(int k) {
+    a = k;
+    b = "3";
+  }
+};
+
 int main(int argc, char *argv[]) {
   const int kPort = 8080;
   const std::string kServerAddress = "127.0.0.1";
+  temp_struct mystruct(4);
 
+  
   std::string message = read_args(argc, argv);
 
   int my_socket = create_socket();
