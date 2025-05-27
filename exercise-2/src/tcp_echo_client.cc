@@ -75,20 +75,9 @@ std::string read_args(int argc, char *argv[]) {
   return message;
 }
 
-struct temp_struct {
-  int a;
-  std::string b;
-  temp_struct(int k) {
-    a = k;
-    b = "3";
-  }
-};
-
 int main(int argc, char *argv[]) {
   const int kPort = 8080;
   const std::string kServerAddress = "127.0.0.1";
-  temp_struct mystruct(4);
-
   
   std::string message = read_args(argc, argv);
 

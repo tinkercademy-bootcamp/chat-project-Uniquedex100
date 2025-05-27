@@ -54,12 +54,22 @@
 - Where is the text in your `std::string`?
   - short strings are stored inside object SSO, Longer are stored in the heap.
 - What is `std::optional`?
+  - It is a template wrapper that may or may not contain a value.
+  A common use case for optional is the return value of a function that may fail. 
+  As opposed to other approaches, such as std::pair<T, bool>, 
+  optional handles expensive-to-construct objects well and is more readable, 
+  as the intent is expressed explicitly.
 - How do you find out the memory layout of a `std::optional`?
+  - Using debugger mode in VS Code.
 - Read https://en.cppreference.com/w/cpp/memory#Smart_pointers - Guide to 
-  modern C++ memory management using smart pointers
+  modern C++ memory management using smart pointers.
+  - Done
 - Which pointer types are the most important to know about?
+  - raw pointers, unique_ptr, weak_ptr and shared_ptr.
 - Which smart pointer should you use by default if you can?
+  - unique_ptr.
 - Does changing your optimization level in `CXXFLAGS` from `-O0` to `-O3` have any impact on the answers to any of the above questions?
+  - Nope, I don't think so.
 
 ## More Thinking About Performance
 

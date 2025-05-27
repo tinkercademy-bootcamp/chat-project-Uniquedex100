@@ -2,10 +2,11 @@
 
 SERVER_FILE = build/server
 CLIENT_FILE = build/client
+EXPERIMENT_FILE = experiment
 BUILD_DIRECTORY = build
 
 CXX = g++
-CXXFLAGS = -g -fsanitize=address
+CXXFLAGS = -g -fsanitize=address -O0 -std=c++17
 LDFLAGS = -fsanitize=address
 
 all: build_dir server client
@@ -19,5 +20,8 @@ server: tcp_echo_server.cc
 client: tcp_echo_client.cc
 	$(CXX) $(CXXFLAGS) tcp_echo_client.cc -o $(CLIENT_FILE) $(LDFLAGS)
 
+experiment: experiment.cc
+	$(CXX) $(CXXFLAGS) experiment.cc -o $(EXPERIMENT_FILE) $(LDFLAGS)
+
 clean:
-	rm -rf $(BUILD_DIRECTORY)
+	rm -rf $(BUILD_DIRECTORY) $(EXPERIMENT_FILE)
