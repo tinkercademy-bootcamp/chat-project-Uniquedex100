@@ -40,7 +40,7 @@ Thumbs.db
 *.gcov
 
 /bin/
-/build/
+**/build/
 /pkg/
 /vendor/
 *.test
