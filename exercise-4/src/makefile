@@ -1,10 +1,10 @@
 .PHONY: all clean link
 
-SERVER_FILE = build/server
-CLIENT_FILE = build/client
-SERVER_OBJECT_FILE = build/server.o
-CLIENT_OBJECT_FILE = build/client.o
-SHARED_OBJECT_FILE = build/echo.o
+SERVER_FILE = build/tcp_echo_server
+CLIENT_FILE = build/tcp_echo_client
+SERVER_OBJECT_FILE = build/tcp_echo_server.o
+CLIENT_OBJECT_FILE = build/tcp_echo_client.o
+SHARED_OBJECT_FILE = build/tcp_echo.o
 EXPERIMENT_FILE = build/experiment
 BUILD_DIRECTORY = build
 
