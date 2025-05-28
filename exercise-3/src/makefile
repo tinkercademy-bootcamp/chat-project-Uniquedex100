@@ -2,7 +2,7 @@
 
 SERVER_FILE = build/server
 CLIENT_FILE = build/client
-EXPERIMENT_FILE = experiment
+EXPERIMENT_FILE = build/experiment
 BUILD_DIRECTORY = build
 
 CXX = g++
