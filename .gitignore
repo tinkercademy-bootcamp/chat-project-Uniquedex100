@@ -66,14 +66,9 @@ build/
 /.project
 /.settings/
 
-# Ignore any file without an extension (i.e., no dot in filename)
-**/[!.]*
-
-# But don't ignore directories
-!*/
-
-# ✅ Keep specific important extensionless files
-!**/Makefile
-!**/makefile
-!**/README
-!**/LICENSE
+# Earlier I tried to ignore extensionless binaries, but wasn't useful
+# ignore some binaries deliberately
+**/tcp_echo_server
+**/tcp_echo_client
+**/tcp_echo
+**/experiment
