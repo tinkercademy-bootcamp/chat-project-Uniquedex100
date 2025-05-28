@@ -12,7 +12,7 @@
 
 - Here is one way to separate out the code into multiple files
   - Yes, it surely is.
-- Is this the best way to do it? 
+- Is this the best way to do it?
   - Yes, I suppose, but as the changes are minimal, It would be better to keep in same file only. In this case it's just one function.
 - What are the advantages and disadvantages?
   - Advantages: Code reusability, easier to find bugs, helps understand the code better.
@@ -58,12 +58,25 @@
 
 ## "Senses" in Programming
 
-- Have you ever heard of programmers referring to "code smells"? How can code
-  smell?
-- What does it mean to have a sense of taste in programming? How can code
-  taste?
+- Have you ever heard of programmers referring to "code smells"? How can code smell?
+  - "code smells" are patterns in code that signal deeper problems — they aren't bugs, but they hint that something is off. Examples include overly long functions, duplicated code, or inconsistent naming. Like a bad smell, they alert you before things go seriously wrong.
+- What does it mean to have a sense of taste in programming? How can code taste?
+  - Having taste in programming means recognizing elegant, clean, and maintainable code and choosing it over the merely functional. Code “tastes” good when it reads naturally, feels well-structured, and shows thoughtful design.
 - Is there an analogue for every sense?
+  - Yes, metaphorically:  
+  - Smell → Detecting problematic patterns or bad design (code smells)  
+  - Taste → Appreciating code quality and style  
+  - Sight → Recognizing patterns, structure, and visual clarity in code  
+  - Touch → Experiencing how code behaves when you interact with or refactor it  
+  - Hearing → Listening to feedback from tests, compilers, and other developers
 - What other code senses can you think of?
+   - Intuition: Recognizing problems or solutions instinctively through experience  
+   - Balance: Knowing when to abstract or generalize and when to keep things simple  
+   - Flow: Feeling how code logic and control naturally progress  
+   - Temperature: Code that’s “hot” or changing frequently, signaling potential volatility
 - How many senses do humans have?
+  - Traditionally 5.
 - When would you want to see something before you touch it?
+  - When you're unsure or cautious — like reviewing unfamiliar code before modifying it, or reading API docs before using a function.
 - When would you want to touch something before you see it?
+  - When exploring or debugging — running the code or testing behavior can sometimes reveal issues more effectively than just reading it.
