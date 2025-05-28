@@ -6,7 +6,9 @@
 
 - Move code that can be shared between `tcp_echo_server.cc` and 
   `tcp_echo_client.cc` to separate `.h` and `.cc` files
+  - Done, created tcp_echo.cpp and tcp_echo.h
 - How would you compile from the command line?
+  - 
 - How would you compile using make?
 - How would you compile using VS Code?
 
