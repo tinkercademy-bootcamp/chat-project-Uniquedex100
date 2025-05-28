@@ -8,8 +8,13 @@
   `tcp_echo_client.cc` to separate `.h` and `.cc` files
   - Done, created tcp_echo.cpp and tcp_echo.h
 - How would you compile from the command line?
-  - 
+  - g++ -c -g -fsanitize=address -O0 -std=c++17 tcp_echo_server.cpp -o build/server.o
+  - g++ -c -g -fsanitize=address -O0 -std=c++17 tcp_echo_client.cpp -o build/client.o
+  - g++ -c -g -fsanitize=address -O0 -std=c++17 tcp_echo.cpp -o build/echo.o
+  - g++ build/echo.o build/server.o -g -fsanitize=address -o build/server
+  - g++ build/echo.o build/client.o -g -fsanitize=address -o build/client
 - How would you compile using make?
+  - edited the makefile
 - How would you compile using VS Code?
 
 ### Compiling vs Linking
