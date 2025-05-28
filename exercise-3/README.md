@@ -82,22 +82,33 @@
 - [More about Compiler Explorer](https://www.youtube.com/watch?v=bSkpMdDe4g4) - 
   Deep dive into compiler optimization and assembly analysis
   - Create a struct which contain many different data types
+    - Done
   - Look at the memory layout in the debugger
-  - Create a `char` or `uint8_t` pointer to the beginning of the struct, 
-    iterate to the end of the struct, printing out the value of each byte in 
-    hexadecimal
-  - Try accessing different parts of the struct and see in compiler explorer
-    what the assembly looks like
-  - What happens if you iterate the pointer to outside the bounds of your
-    array?
+    - Done
+  - Create a `char` or `uint8_t` pointer to the beginning of the struct, iterate to the end of the struct, printing out the value of each byte in hexadecimal.
+    - Done
+  - Try accessing different parts of the struct and see in compiler explorer what the assembly looks like
+    - Done
+  - What happens if you iterate the pointer to outside the bounds of your array?
+    - I get an overflow error.
   - Let's say your struct is called `Foo`
+    - alright, now it's called Foo
   - What is the difference between `std::vector<Foo>` and `std::vector<Foo*>`?
+    - vector<Foo> actually stores objects by value, and vector<Foo*> stores pointers to Foo objects.
   - What are the tradeoffs between using `std::vector<Foo>` vs 
     `std::vector<Foo*>`? 
+    - Similar to using object vs pointer. In vector<Foo*>, I would have to manage object lifetime myself (or use smart pointers). In vector<Foo> I have contiguous memory so it improves performance. If the objects are large, pointers would be useful.
   - Give an example where `std::vector<Foo>` is a better choice than 
     `std::vector<Foo*>`
+    - Objects are small and many. We will get faster cache friendly access and they would be auto-managed.
   - Give another example where the opposite is true
+    - when objects are large and stored in different memory spaces. We can directly construct a vector of pointers having avoided the need to copy them.
+    An additional use case is polymorphism, where the same vector of pointers points to 2 different structs which have essentially the same structure but different names.
   - Can you create `std::vector<Foo&>`? 
+    - No, we can't. It results in multiple errors.
   - Can you create `std::vector<std::optional<Foo>>`?
+    - Yes, definitely that's allowed.
   - What happens if your struct contains another struct?
+    - That's allowed too, and in fact very common. Structs are laid out recursively, and nested structs will be members.
   - What is the difference between a struct and a class?
+    - They are almost the same, except for 1. Style difference, 2. Different defaults. The default inheritence type in class is private whereas it is public for structs. Similarly default inheritance access is private for classes whereas it is public for structs.
