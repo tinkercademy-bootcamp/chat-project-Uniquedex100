@@ -1,4 +1,4 @@
-.PHONY: all clean compile link
+.PHONY: all clean link
 
 SERVER_FILE = build/server
 CLIENT_FILE = build/client
@@ -10,15 +10,18 @@ BUILD_DIRECTORY = build
 
 CXX = g++
 CXXFLAGS = -c -g -fsanitize=address -O0 -std=c++17
-LDFLAGS = -fsanitize=address
+LDFLAGS = -g -fsanitize=address
 
-all: build_dir link
+all: build_dir $(SERVER_FILE) $(CLIENT_FILE)
 
 build_dir:
 	mkdir -p $(BUILD_DIRECTORY)
 
-link: $(SERVER_OBJECT_FILE) $(CLIENT_OBJECT_FILE) $(SHARED_OBJECT_FILE)
-	$(CXX) $(LDFLAGS) $(SHARED_OBJECT_FILE) $(SERVER_FILE) 
+$(SERVER_FILE): $(SERVER_OBJECT_FILE) $(SHARED_OBJECT_FILE)
+	$(CXX) $(LDFLAGS) $(SHARED_OBJECT_FILE) $(SERVER_OBJECT_FILE) -o $(SERVER_FILE)
+
+$(CLIENT_FILE): $(CLIENT_OBJECT_FILE) $(SHARED_OBJECT_FILE)
+	$(CXX) $(LDFLAGS) $(SHARED_OBJECT_FILE) $(CLIENT_OBJECT_FILE) -o $(CLIENT_FILE)
 
 $(SERVER_OBJECT_FILE): tcp_echo_server.cpp
 	$(CXX) $(CXXFLAGS) tcp_echo_server.cpp -o $(SERVER_OBJECT_FILE)
@@ -28,10 +31,6 @@ $(CLIENT_OBJECT_FILE): tcp_echo_client.cpp
 
 $(SHARED_OBJECT_FILE): tcp_echo.cpp
 	$(CXX) $(CXXFLAGS) tcp_echo.cpp -o $(SHARED_OBJECT_FILE)
-
-link: $(SERVER_FILE) $(CLIENT_FILE)
-
-$(SERVER_FILE): 
 
 clean:
 	rm -rf $(BUILD_DIRECTORY) $(EXPERIMENT_FILE)
