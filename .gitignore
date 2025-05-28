@@ -65,3 +65,15 @@ build/
 /.classpath
 /.project
 /.settings/
+
+# Ignore any file without an extension (i.e., no dot in filename)
+**/[!.]*
+
+# But don't ignore directories
+!*/
+
+# ✅ Keep specific important extensionless files
+!**/Makefile
+!**/makefile
+!**/README
+!**/LICENSE
