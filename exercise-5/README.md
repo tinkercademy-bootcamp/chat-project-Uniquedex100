@@ -45,9 +45,9 @@
 - You can use the code you wrote from previous exercises instead
   - Yep, definitely.
 - How should you divide the code into files?
-  - We should divide it into 2 files for server and client.
+  - We should divide it into 2 files for server and client. For division within a file, we can literally put all the code of server into server class and similarly all the client code to client class.
 - What namespace and directory structure should you use? Why?
-  - We should use 
+  - I prefer using defining namespace in a code snippet encapsulated by {}, because the code is short and there are multiple functions too. For directory structure, I have followed what we were following all along.
 
 ## Programming Sense of Taste
 
