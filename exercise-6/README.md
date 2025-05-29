@@ -6,9 +6,15 @@
 
 - There is a new file `src/spdlog-hello-world-main.cc`
 - It uses the spdlog and fmt libraries. 
-  [More info here](https://github.com/gabime/spdlog) - Fast C++ logging 
-  library with various sink types and formatting options
+  [More info here](https://github.com/gabime/spdlog) - Fast C++ logging library with various sink types and formatting options
 - How do you compile this file using the `g++` CLI?
+  - Firstly, we need to install this library, using the command: 
+    sudo apt install libspdlog-dev
+  - For compiling, we use the traditional command.
+  - While linking, we provide an additional flag called -lspdlog that 
+  tells the linker to look for a library named libspdlog.so or libspdlog.a
+  (dynamic or static) which contain implementation of spdlog's functions.
+
 - What do you need to change in your makefile to use this library?
 - How many different ways can this library be added into your project?
 - What are the tradeoffs in the different ways?
