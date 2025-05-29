@@ -45,11 +45,23 @@
 ## Git Clone and Building from Source
 
 - Where is `g++` looking for the include files and library files?
-  - while compiling, g++ looks in the default system paths (/usr/include) and ()
+  - while compiling, g++ looks in the default system paths (/usr/include) and (/usr/lib). If a particular library is not in the default location, we need to specify the include path using -I and library path using flag -L.
+
 - How do you find out?
+  - To find out where g++ is looking, we can use the verbose flag (-v). This prints verbose outputs, including the search paths. 
 
 ## C++ Package Managers
 
 - Why are there so many C++ package managers?
+  - Because of history of C++, in earlier days C++ did not standardize any packaging or build tool, and therefore differenct ecosystems evolved with different needs.
+
 - Which one is the best one?
+  - No-one's the best, depends on the needs.
+    - vcpkg is popular amongst windows users and integrates easily with CMake.
+    - conan is flexible and has large repository of libraries.
+    - xrepo is useful for cross platform development
+
 - Which are the most notable ways to manage the compilation of C++ projects?
+  - Manual makefiles
+  - Build systems like CMake or Meson
+  - Dependency Management using Package managers like conan or vcpkg
