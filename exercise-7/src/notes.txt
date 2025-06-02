@@ -11,12 +11,15 @@ Guidelines:
 - Exactly what database should server be using to keep track?
 - Try to avoid regular changes to files, i want to avoid changing makefile again and again for now.
 
-- Deciding the data structure: 
+- Deciding the data structure: (Proposed Data Structures)
   - Need to send the incoming message to all the people in current channel.
-  - A map from channels to clients.
-  - A map from client to channel.
-  - A history database, which tracks the exact history of every channel (yes, on a channel basis)
-  - Each client has a username? probably a field in client object only?
+  - A map from channels to clients. map<int, vector>
+  - A map from client to channel. map<int, int>
+  - A history database, which tracks the exact history of every channel (yes, on a channel basis) map<int, vector<MsgEntry>>
+  - Each client has a username? probably a field in client object only? map<int, string>
+
+To Implement: 
+  - Unique Client identifiers
 
 Current Assumptions: 
   - Every user can join/create any channel.
@@ -31,6 +34,12 @@ API Specification: (user side)
     user is by default a part of this channel
   - list/ : lists all the channels that are present on the server along 
     with their channel ids. User may register to any
+  - 
+
+Function Specifications for database: 
+  - createNewChannel: creates a new channel, and returns the channel id.
+  - fetchClientsChannel: returns the client's channel and returns -1 if no channel exists.
+  - addClientsToChannel: adds a client to a channel and removes him from any previous channels.
   - 
 
 - Progression: 
