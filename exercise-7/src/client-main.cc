@@ -42,7 +42,7 @@ int main() {
       break;
     }
 
-    for (int i = 0; i < nfds; ++i) {
+    for (int i = 0; i < nfds; i++) {
       int fd = events[i].data.fd;
       if (fd == STDIN_FILENO) {
         std::string input_received;

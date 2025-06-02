@@ -8,7 +8,8 @@
 
 tt::chat::server::Server::Server(int port)
     : socket_(tt::chat::net::create_socket()),
-      address_(tt::chat::net::create_address(port)) {
+      address_(tt::chat::net::create_address(port)),
+      epoll_fd{epoll_create1(0)} {
   using namespace tt::chat;
   set_socket_options(socket_, 1);
 
@@ -18,6 +19,12 @@ tt::chat::server::Server::Server(int port)
   err_code = listen(socket_, 3);
   check_error(err_code < 0, "listen failed\n");
   std::cout << "Server listening on port " << port << "\n";
+
+  check_error(epoll_fd == -1, "epoll_create1 failed");
+  socket_event.events = EPOLLIN | EPOLLET;  
+  socket_event.data.fd = socket_;
+  int status = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, socket_, &socket_event);
+  check_error(status == -1, "epoll_ctl socket failed");
 }
 
 tt::chat::server::Server::~Server() { close(socket_); }
@@ -32,6 +39,27 @@ void tt::chat::server::Server::handle_connections() {
   }
 }
 
+void tt::chat::server::Server::acceptNewConnection() {
+  sockaddr_in client_addr;
+  socklen_t addr_len = sizeof(client_addr);
+  int status;
+
+  int client_fd = accept(socket_, (sockaddr*)&client_addr, &addr_len);
+  check_error(client_fd == -1, "Accept error n ");
+  int flags = fcntl(client_fd, F_GETFL, 0);
+  check_error(flags == -1, "fcntl get flags failed");
+  status = fcntl(client_fd, F_SETFL, flags | O_NONBLOCK);
+  check_error(status == -1, "fcntl set flags O_NONBLOCK failed");
+
+  epoll_event ev{};
+  ev.events = EPOLLIN | EPOLLET;
+  ev.data.fd = client_fd;
+  status = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_fd, &ev);
+  check_error(status == -1, "epoll_ctl add client failed");
+
+  std::cout << "Accepted new client: " << client_fd << "\n";
+}
+
 void tt::chat::server::Server::set_socket_options(int sock, int opt) {
   using namespace tt::chat;
   auto err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
@@ -41,7 +69,6 @@ void tt::chat::server::Server::set_socket_options(int sock, int opt) {
 
 void tt::chat::server::Server::handle_accept(int sock) {
   using namespace tt::chat;
-
   char buffer[kBufferSize] = {0};
 
   while(true){
