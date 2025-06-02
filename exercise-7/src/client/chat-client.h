@@ -26,8 +26,8 @@ private:
   int epoll_fd;
   epoll_event socket_event;
   epoll_event stdin_event;
-  sockaddr_in create_server_address(const std::string &server_ip, int port);
-  void connect_to_server(int sock, sockaddr_in &server_address);
+  sockaddr_in createServerAddress(const std::string &server_ip, int port);
+  void connectToServer(int sock, sockaddr_in &server_address);
 
   static constexpr int kBufferSize = 1024;
 };

@@ -8,9 +8,9 @@ tt::chat::client::Client::Client(int port, const std::string &server_address)
   int status = 0;
   check_error(epoll_fd == -1, "epoll_create1 failed");
 
-  sockaddr_in address = create_server_address(server_address, port);
-  connect_to_server(socket_, address);
-
+  sockaddr_in address = createServerAddress(server_address, port);
+  connectToServer(socket_, address);
+  
   int flags = fcntl(socket_, F_GETFL, 0);
   check_error(flags == -1, "fcntl get flags failed");
   status = fcntl(socket_, F_SETFL, flags | O_NONBLOCK);
@@ -70,7 +70,7 @@ std::string tt::chat::client::Client::clientSendList(std::string &message){
 
 tt::chat::client::Client::~Client() { close(socket_); close(epoll_fd);}
 
-sockaddr_in tt::chat::client::Client::create_server_address(
+sockaddr_in tt::chat::client::Client::createServerAddress(
     const std::string &server_ip, int port) {
   using namespace tt::chat;
   sockaddr_in address = net::create_address(port);
@@ -80,7 +80,7 @@ sockaddr_in tt::chat::client::Client::create_server_address(
   return address;
 }
 
-void tt::chat::client::Client::connect_to_server(
+void tt::chat::client::Client::connectToServer(
     int sock, sockaddr_in &server_address) {
   using namespace tt::chat;
   auto err_code =
