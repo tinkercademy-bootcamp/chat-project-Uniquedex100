@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cctype>
 
+
 #include "../utils.h"
 
 const std::string TERMINATION_COMMANDS[] = {"exit", "quit", "terminate"};

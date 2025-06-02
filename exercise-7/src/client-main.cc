@@ -31,34 +31,62 @@ int main() {
   const std::string kServerAddress = "127.0.0.1";
   tt::chat::client::Client client{kPort, kServerAddress};
 
-  std::string input_received = "";
-  std::string input_command = "";
-  std::string input_message = "";
-  while(true){
-    std::cin >> input_received;
-    input_command = getCommandFromInput(input_received);
-    input_message = getMessageFromInput(input_received);
+  const int max_events = 2;
+  epoll_event events[max_events];
+  char recv_buffer[1024];
 
-    if (checkTermination(input_command)){break;}
-    else if(input_command == "msg"){
-      client.clientSendMsg(input_message);
+  while(true){
+    int nfds = epoll_wait(client.getEpollFd(), events, max_events, -1);
+    if (nfds == -1) {
+      perror("epoll_wait failed");
+      break;
     }
-    else if(input_command == "register"){
-      client.clientSendRegister(input_message);
-    }
-    else if(input_command == "goto"){
-      client.clientSendGoto(input_message);
-    }
-    else if(input_command == "create"){
-      client.clientSendCreate(input_message);
-    }
-    else if(input_command == "list"){
-      client.clientSendList(input_message);
-    }
-    else{
-      std::cout<<"Inappropriate command found, usage: "<<std::endl;
-      std::cout<<"Command/Message"<<std::endl;
-      std::cout<<"Available commands: msg, register, goto, create, list";
+
+    for (int i = 0; i < nfds; ++i) {
+      int fd = events[i].data.fd;
+      if (fd == STDIN_FILENO) {
+        std::string input_received;
+        std::getline(std::cin, input_received);  // getline helps get full lines
+        std::string input_command = getCommandFromInput(input_received);
+        std::string input_message = getMessageFromInput(input_received);
+
+        if (checkTermination(input_command)) {
+          std::cout << "Exiting..."<<std::endl;
+          return 0;
+        } 
+        else if (input_command == "msg") {
+          client.clientSendMsg(input_message);
+        } 
+        else if (input_command == "register") {
+          client.clientSendRegister(input_message);
+        } 
+        else if (input_command == "goto") {
+          client.clientSendGoto(input_message);
+        } 
+        else if (input_command == "create") {
+          client.clientSendCreate(input_message);
+        } 
+        else if (input_command == "list") {
+          client.clientSendList(input_message);
+        } 
+        else{
+          std::cout<<"Inappropriate command found, usage: "<<std::endl;
+          std::cout<<"Command/Message"<<std::endl;
+          std::cout<<"Available commands: msg, register, goto, create, list";
+        }
+      }
+      else if (fd == client.getSocketFd()) {
+        std::cout<<"client received something"<<std::endl;
+        std::memset(recv_buffer, 0, sizeof(recv_buffer));
+        ssize_t read_size = read(fd, recv_buffer, 1024);
+        if (read_size > 0) {
+          std::cout << "Server: " << std::string(recv_buffer) << std::endl;
+        } else if (read_size == 0) {
+          std::cout << "Server closed connection.\n";
+        } else {
+          perror("read from socket failed");
+        }
+      }
     }
   }
   return 0;

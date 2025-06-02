@@ -47,6 +47,7 @@ void tt::chat::server::Server::handle_accept(int sock) {
 
   if (read_size > 0) {
     SPDLOG_INFO("Received: {}", buffer);
+    std::cout<<"server sent something"<<std::endl;
     send(sock, buffer, read_size, 0);
     SPDLOG_INFO("Echo message sent");
   } else if (read_size == 0) {
