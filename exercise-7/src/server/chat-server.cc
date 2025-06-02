@@ -13,13 +13,10 @@ tt::chat::server::Server::Server(int port)
   set_socket_options(socket_, 1);
 
   address_.sin_addr.s_addr = INADDR_ANY;
-
   auto err_code = bind(socket_, (sockaddr *)&address_, sizeof(address_));
   check_error(err_code < 0, "bind failed\n");
-
   err_code = listen(socket_, 3);
   check_error(err_code < 0, "listen failed\n");
-
   std::cout << "Server listening on port " << port << "\n";
 }
 
