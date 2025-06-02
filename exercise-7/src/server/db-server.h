@@ -31,6 +31,7 @@ public:
   int fetchClientsChannel(int client_id);
   int removeClientFromChannel(int client_id);
   int addClientToChannel(int client_id, int channel_id);
+  std::vector<int> fetchChannelsClients(int channel_id);
 
 private: 
   int max_channel_id;
