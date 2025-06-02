@@ -11,10 +11,6 @@ Guidelines:
 - Exactly what database should server be using to keep track?
 - Try to avoid regular changes to files, i want to avoid changing makefile again and again for now.
 
-- Extra commands I can think of: 
-  - Fetch last x
-  - 
-
 - Deciding the data structure: 
   - Need to send the incoming message to all the people in current channel.
   - A map from channels to clients.
@@ -24,17 +20,17 @@ Guidelines:
 
 Current Assumptions: 
   - Every user can join/create any channel.
-  
+
 API Specification: (user side)
-  - msg/channel-id/message: sends a message to channel-id channel.
-  - register/channel-id: user is now a part of channel-id channel.
+  - msg/channel-id/message: sends a message to channel-id channel
+  - register/channel-id: user is now a part of channel-id channel
   - goto/channel-id: user is now at channel-id if user is already 
     registered and will receive all the corresponding messages to this 
-    channel.
-  - create/ : creates a new channel, user gets the channel-id in return. 
-    user is by default a part of this channel.
+    channel
+  - create/ : creates a new channel, user gets the channel-id in return
+    user is by default a part of this channel
   - list/ : lists all the channels that are present on the server along 
-    with their channel ids. User may register to any.
+    with their channel ids. User may register to any
   - 
 
 - Progression: 

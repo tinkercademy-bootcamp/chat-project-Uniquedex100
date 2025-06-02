@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <thread>
 
 #include "client/chat-client.h"
 #include "net/chat-sockets.h"
@@ -39,9 +40,26 @@ int main() {
     input_message = getMessageFromInput(input_received);
 
     if (checkTermination(input_command)){break;}
-    else if(input_command == "msg")
-    std::string response = client.send_and_receive_message(input_message);
-    std::cout<<response<<std::endl;
+    else if(input_command == "msg"){
+      client.clientSendMsg(input_message);
+    }
+    else if(input_command == "register"){
+      client.clientSendRegister(input_message);
+    }
+    else if(input_command == "goto"){
+      client.clientSendGoto(input_message);
+    }
+    else if(input_command == "create"){
+      client.clientSendCreate(input_message);
+    }
+    else if(input_command == "list"){
+      client.clientSendList(input_message);
+    }
+    else{
+      std::cout<<"Inappropriate command found, usage: "<<std::endl;
+      std::cout<<"Command/Message"<<std::endl;
+      std::cout<<"Available commands: msg, register, goto, create, list";
+    }
   }
   return 0;
 }
