@@ -55,19 +55,19 @@ int main() {
           return 0;
         } 
         else if (input_command == "msg") {
-          client.clientSendMsg(input_message);
+          client.clientSendMsg(input_received);
         } 
         else if (input_command == "register") {
-          client.clientSendRegister(input_message);
+          client.clientSendRegister(input_received);
         } 
         else if (input_command == "goto") {
-          client.clientSendGoto(input_message);
+          client.clientSendGoto(input_received);
         } 
         else if (input_command == "create") {
-          client.clientSendCreate(input_message);
+          client.clientSendCreate(input_received);
         } 
         else if (input_command == "list") {
-          client.clientSendList(input_message);
+          client.clientSendList(input_received);
         } 
         else{
           std::cout<<"Inappropriate command found, usage: "<<std::endl;
