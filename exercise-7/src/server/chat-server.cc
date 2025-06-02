@@ -11,7 +11,7 @@ tt::chat::server::Server::Server(int port)
       address_(tt::chat::net::create_address(port)),
       epoll_fd{epoll_create1(0)} {
   using namespace tt::chat;
-  set_socket_options(socket_, 1);
+  setSocketOptions(socket_, 1);
 
   address_.sin_addr.s_addr = INADDR_ANY;
   auto err_code = bind(socket_, (sockaddr *)&address_, sizeof(address_));
@@ -28,16 +28,6 @@ tt::chat::server::Server::Server(int port)
 }
 
 tt::chat::server::Server::~Server() { close(socket_); }
-
-void tt::chat::server::Server::handle_connections() {
-  socklen_t address_size = sizeof(address_);
-
-  while (true) {
-    int accepted_socket = accept(socket_, (sockaddr *)&address_, &address_size);
-    tt::chat::check_error(accepted_socket < 0, "Accept error n ");
-    handle_accept(accepted_socket);
-  }
-}
 
 void tt::chat::server::Server::acceptNewConnection() {
   sockaddr_in client_addr;
@@ -78,32 +68,9 @@ void tt::chat::server::Server::readIncomingMessage(int fd){
   }
 }
 
-void tt::chat::server::Server::set_socket_options(int sock, int opt) {
+void tt::chat::server::Server::setSocketOptions(int sock, int opt) {
   using namespace tt::chat;
   auto err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
                              &opt, sizeof(opt));
   check_error(err_code < 0, "setsockopt() error\n");
-}
-
-void tt::chat::server::Server::handle_accept(int sock) {
-  using namespace tt::chat;
-  char buffer[kBufferSize] = {0};
-
-  while(true){
-    memset(buffer, 0, kBufferSize);
-    ssize_t read_size = read(sock, buffer, kBufferSize);
-    if (read_size > 0) {
-      SPDLOG_INFO("Received: {}", buffer);
-      std::cout<<"server sent something"<<std::endl;
-      send(sock, buffer, read_size, 0);
-      SPDLOG_INFO("Echo message sent");
-    } else if (read_size == 0) {
-      SPDLOG_INFO("Client disconnected.");
-      break;
-    } else {
-      SPDLOG_ERROR("Read error on client socket {}", socket_);
-      break;
-    }
-  }
-  close(sock);
 }

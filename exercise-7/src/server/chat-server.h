@@ -10,7 +10,6 @@ class Server {
 public:
   Server(int port);
   ~Server();
-  void handle_connections();
   void acceptNewConnection();
   void readIncomingMessage(int fd);
   int getEpollFd() const {return epoll_fd; }
@@ -24,8 +23,7 @@ private:
 
   static constexpr int kBufferSize = 1024;
 
-  void handle_accept(int sock);
-  static void set_socket_options(int sock, int opt);
+  static void setSocketOptions(int sock, int opt);
 };
 } // namespace tt::chat::server
 
