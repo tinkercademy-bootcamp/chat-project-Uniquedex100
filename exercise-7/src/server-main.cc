@@ -10,6 +10,5 @@ int main() {
 
   tt::chat::server::Server server(kPort);
   server.handle_connections();
-
   return 0;
 }

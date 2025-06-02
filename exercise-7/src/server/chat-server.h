@@ -3,7 +3,6 @@
 
 #include <netinet/in.h>
 namespace tt::chat::server {
-
 class Server {
 public:
   Server(int port);

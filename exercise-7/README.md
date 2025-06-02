@@ -11,6 +11,7 @@
 - What other resources can you find about epoll?
 - Are the above code repos examples of good code or bad code?
 - How do you decide what is good code or bad code?
+  - By smelling code :).
 
 ## Creating a Chat Client/Server Using EPOLL
 

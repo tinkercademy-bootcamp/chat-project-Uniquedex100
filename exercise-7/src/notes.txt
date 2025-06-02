@@ -1,0 +1,33 @@
+Alright, here: 
+
+Guidelines: 
+- Server should accept multiple connections at the same time. Use epoll for that.
+- Commands for client: List channels, goto channel, create channel.
+- Everyone receives the message for current channel.
+- Keep a current_channel variable for every client.
+- Add that in client class.
+- On the server side, server has a database sortof where it maintains
+- who all sent 
+- Exactly what database should server be using to keep track?
+
+- Extra commands I can think of: 
+  - Fetch last x
+  - 
+
+- Deciding the data structure: 
+  - Need to send the incoming message to all the people in current channel.
+  - A map from channels to clients.
+  - A map from client to channel.
+  - A history database, which tracks the exact history of every channel (yes, on a channel basis)
+  - Each client has a username? probably a field in client object only?
+
+
+
+Make a shell script which can launch multiple clients at the same time.
+All the clients will connect to server at the same time.
+
+
+client-main.cc: contains running code of client. Has the main function.
+chat-client.cc and .h: contain the client class where all the functions have been defined.
+chat-server.cc and .h: contain the server class where all the functions have been defined.
+chat-sockets.cc and .h: contain basic functions that have been used in client and server classes.
