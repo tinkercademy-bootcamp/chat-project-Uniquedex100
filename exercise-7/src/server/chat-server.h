@@ -4,6 +4,7 @@
 #include <netinet/in.h>
 #include <string>
 #include <sys/epoll.h>
+#include "db-server.h"
 
 namespace tt::chat::server {
 class Server {
@@ -16,6 +17,7 @@ public:
   int getSocketFd() const { return socket_; }
 
 private:
+  Database db;
   int socket_;
   int epoll_fd;
   sockaddr_in address_;

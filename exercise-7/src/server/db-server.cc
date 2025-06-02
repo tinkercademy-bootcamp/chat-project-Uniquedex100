@@ -4,6 +4,8 @@ Database::Database(){
   max_channel_id = 0;
 }
 
+Database::~Database(){}
+
 int Database::takeLowestFreeChannelId(){
   max_channel_id++;
   return max_channel_id;
@@ -41,4 +43,11 @@ int Database::addClientToChannel(int client_id, int channel_id){
   channel_to_clients[channel_id].push_back(client_id);
   client_to_channel[client_id] = channel_id;
   return 0;
+}
+
+std::vector<int> Database::fetchChannelsClients(int channel_id){
+  if (channel_to_clients.find(channel_id) == channel_to_clients.end()) {
+    return std::vector<int>(); // channel doesn't exist
+  }
+  return channel_to_clients[channel_id];
 }

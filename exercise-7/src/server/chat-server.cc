@@ -27,7 +27,6 @@ tt::chat::server::Server::Server(int port)
   check_error(status == -1, "epoll_ctl socket failed");
 }
 
-
 void tt::chat::server::Server::setSocketOptions(int sock, int opt) {
   using namespace tt::chat;
   auto err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
