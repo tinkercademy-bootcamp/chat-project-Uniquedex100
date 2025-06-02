@@ -23,7 +23,7 @@ tt::chat::client::Client::Client(int port, const std::string &server_address)
 
   stdin_event.events = EPOLLIN | EPOLLET;
   stdin_event.data.fd = STDIN_FILENO;
-  status = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, STDIN_FILENO, &stdin_event)
+  status = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, STDIN_FILENO, &stdin_event);
   check_error(status == -1, "epoll_ctl stdin failed");
 }
 

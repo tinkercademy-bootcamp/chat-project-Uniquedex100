@@ -43,17 +43,22 @@ void tt::chat::server::Server::handle_accept(int sock) {
   using namespace tt::chat;
 
   char buffer[kBufferSize] = {0};
-  ssize_t read_size = read(sock, buffer, kBufferSize);
 
-  if (read_size > 0) {
-    SPDLOG_INFO("Received: {}", buffer);
-    std::cout<<"server sent something"<<std::endl;
-    send(sock, buffer, read_size, 0);
-    SPDLOG_INFO("Echo message sent");
-  } else if (read_size == 0) {
-    SPDLOG_INFO("Client disconnected.");
-  } else {
-    SPDLOG_ERROR("Read error on client socket {}", socket_);
+  while(true){
+    memset(buffer, 0, kBufferSize);
+    ssize_t read_size = read(sock, buffer, kBufferSize);
+    if (read_size > 0) {
+      SPDLOG_INFO("Received: {}", buffer);
+      std::cout<<"server sent something"<<std::endl;
+      send(sock, buffer, read_size, 0);
+      SPDLOG_INFO("Echo message sent");
+    } else if (read_size == 0) {
+      SPDLOG_INFO("Client disconnected.");
+      break;
+    } else {
+      SPDLOG_ERROR("Read error on client socket {}", socket_);
+      break;
+    }
   }
   close(sock);
 }
