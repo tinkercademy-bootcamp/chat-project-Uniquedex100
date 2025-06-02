@@ -2,8 +2,7 @@
 #include "../net/chat-sockets.h"
 #include "../utils.h"
 
-tt::chat::client::Client::Client(int port,
-                                         const std::string &server_address)
+tt::chat::client::Client::Client(int port, const std::string &server_address)
     : socket_{tt::chat::net::create_socket()} {
   sockaddr_in address = create_server_address(server_address, port);
   connect_to_server(socket_, address);
