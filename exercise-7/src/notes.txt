@@ -22,6 +22,21 @@ Guidelines:
   - A history database, which tracks the exact history of every channel (yes, on a channel basis)
   - Each client has a username? probably a field in client object only?
 
+Current Assumptions: 
+  - Every user can join/create any channel.
+  
+API Specification: (user side)
+  - msg/channel-id/message: sends a message to channel-id channel.
+  - register/channel-id: user is now a part of channel-id channel.
+  - goto/channel-id: user is now at channel-id if user is already 
+    registered and will receive all the corresponding messages to this 
+    channel.
+  - create/ : creates a new channel, user gets the channel-id in return. 
+    user is by default a part of this channel.
+  - list/ : lists all the channels that are present on the server along 
+    with their channel ids. User may register to any.
+  - 
+
 - Progression: 
   - We will run a server
   - Some arbitrary person will run a client
@@ -31,7 +46,7 @@ Guidelines:
     - The client then interacts with server and does things accordingly.
     - For messages, planning to follow this format: "Command/Message".
     - Implement an escape character as well.
-    
+
 Make a shell script which can launch multiple clients at the same time.
 All the clients will connect to server at the same time.
 
