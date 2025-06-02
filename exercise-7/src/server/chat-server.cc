@@ -60,6 +60,24 @@ void tt::chat::server::Server::acceptNewConnection() {
   std::cout << "Accepted new client: " << client_fd << "\n";
 }
 
+void tt::chat::server::Server::readIncomingMessage(int fd){
+  char recv_buffer[kBufferSize] = {0};
+  ssize_t bytes_read = read(fd, recv_buffer, sizeof(recv_buffer));
+  if (bytes_read > 0) {
+    SPDLOG_INFO("Received: {}", recv_buffer);
+    send(fd, recv_buffer, bytes_read, 0);  // echo
+    SPDLOG_INFO("Echo message sent");
+  } else if (bytes_read == 0) {
+    SPDLOG_INFO("Client disconnected.");
+    epoll_ctl(epoll_fd, EPOLL_CTL_DEL, fd, nullptr);
+    close(fd);
+  } else {
+    SPDLOG_ERROR("Read error on client socket {}", fd);
+    epoll_ctl(epoll_fd, EPOLL_CTL_DEL, fd, nullptr);
+    close(fd);
+  }
+}
+
 void tt::chat::server::Server::set_socket_options(int sock, int opt) {
   using namespace tt::chat;
   auto err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,

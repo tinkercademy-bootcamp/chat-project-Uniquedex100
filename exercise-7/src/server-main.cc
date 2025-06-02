@@ -13,7 +13,6 @@ int main() {
 
   const int max_clients = 10;
   epoll_event events[max_clients];
-  char recv_buffer[1024];
 
   while(true){
     int nfds = epoll_wait(server.getEpollFd(), events, max_clients, -1);
@@ -28,21 +27,7 @@ int main() {
         server.acceptNewConnection();
       }
       else{
-        memset(recv_buffer, 0, 1024);
-        ssize_t bytes_read = read(fd, recv_buffer, sizeof(recv_buffer));
-        if (bytes_read > 0) {
-          SPDLOG_INFO("Received: {}", recv_buffer);
-          send(fd, recv_buffer, bytes_read, 0);  // echo
-          SPDLOG_INFO("Echo message sent");
-        } else if (bytes_read == 0) {
-          SPDLOG_INFO("Client disconnected.");
-          epoll_ctl(server.getEpollFd(), EPOLL_CTL_DEL, fd, nullptr);
-          close(fd);
-        } else {
-          SPDLOG_ERROR("Read error on client socket {}", fd);
-          epoll_ctl(server.getEpollFd(), EPOLL_CTL_DEL, fd, nullptr);
-          close(fd);
-        }
+        server.readIncomingMessage(fd);
       }
     }
   }

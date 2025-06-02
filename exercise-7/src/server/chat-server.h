@@ -12,6 +12,7 @@ public:
   ~Server();
   void handle_connections();
   void acceptNewConnection();
+  void readIncomingMessage(int fd);
   int getEpollFd() const {return epoll_fd; }
   int getSocketFd() const { return socket_; }
 
