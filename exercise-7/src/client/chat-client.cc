@@ -28,6 +28,35 @@ std::string tt::chat::client::Client::send_and_receive_message(
   }
 }
 
+std::string tt::chat::client::Client::clientSendMsg(
+  std::string &message){
+  using namespace tt::chat;
+  char recv_buffer[kBufferSize] = {0};
+  send(socket_, message.c_str(), message.size(), 0);
+  std::cout << "Sent: " << message << "\n";
+
+  ssize_t read_size = read(socket_, recv_buffer, kBufferSize);
+  if (read_size > 0) {
+    return std::string(recv_buffer);
+  } else if (read_size == 0) {
+    return "Server closed connection.\n";
+  } else {
+    return "Read error.\n";
+  }
+}
+std::string tt::chat::client::Client::clientSendRegister(std::string &message){
+  return "";
+}
+std::string tt::chat::client::Client::clientSendGoto(std::string &message){
+  return "";
+}
+std::string tt::chat::client::Client::clientSendCreate(std::string &message){
+  return "";
+}
+std::string tt::chat::client::Client::clientSendList(std::string &message){
+  return "";
+}
+
 tt::chat::client::Client::~Client() { close(socket_); }
 
 sockaddr_in tt::chat::client::Client::create_server_address(

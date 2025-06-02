@@ -9,6 +9,12 @@ class Client {
 public:
   Client(int port, const std::string &server_address);
   std::string send_and_receive_message(const std::string &message);
+  std::string clientSendMsg(std::string &message);
+  std::string clientSendRegister(std::string &message);
+  std::string clientSendGoto(std::string &message);
+  std::string clientSendCreate(std::string &message);
+  std::string clientSendList(std::string &message);
+  
   ~Client();
 
 private:
