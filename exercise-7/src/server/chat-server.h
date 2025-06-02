@@ -11,7 +11,7 @@ public:
   Server(int port);
   ~Server();
   void acceptNewConnection();
-  void readIncomingMessage(int fd);
+  void readIncomingInput(int fd);
   int getEpollFd() const {return epoll_fd; }
   int getSocketFd() const { return socket_; }
 
@@ -24,6 +24,11 @@ private:
   static constexpr int kBufferSize = 1024;
 
   static void setSocketOptions(int sock, int opt);
+  void handleClientMsg(std::string incoming_message, int fd);
+  void handleClientRegister(std::string incoming_message, int fd);
+  void handleClientGoto(std::string incoming_message, int fd);
+  void handleChannelCreate(std::string incoming_message, int fd);
+  void handleChannelList(std::string incoming_message, int fd);
 };
 } // namespace tt::chat::server
 

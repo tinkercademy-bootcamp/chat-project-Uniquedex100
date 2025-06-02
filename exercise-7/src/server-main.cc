@@ -27,7 +27,7 @@ int main() {
         server.acceptNewConnection();
       }
       else{
-        server.readIncomingMessage(fd);
+        server.readIncomingInput(fd);
       }
     }
   }
