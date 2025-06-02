@@ -27,6 +27,14 @@ tt::chat::server::Server::Server(int port)
   check_error(status == -1, "epoll_ctl socket failed");
 }
 
+
+void tt::chat::server::Server::setSocketOptions(int sock, int opt) {
+  using namespace tt::chat;
+  auto err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+                             &opt, sizeof(opt));
+  check_error(err_code < 0, "setsockopt() error\n");
+}
+
 tt::chat::server::Server::~Server() { close(socket_); }
 
 void tt::chat::server::Server::acceptNewConnection() {
@@ -50,11 +58,34 @@ void tt::chat::server::Server::acceptNewConnection() {
   std::cout << "Accepted new client: " << client_fd << "\n";
 }
 
-void tt::chat::server::Server::readIncomingMessage(int fd){
+void tt::chat::server::Server::readIncomingInput(int fd){
   char recv_buffer[kBufferSize] = {0};
   ssize_t bytes_read = read(fd, recv_buffer, sizeof(recv_buffer));
   if (bytes_read > 0) {
     SPDLOG_INFO("Received: {}", recv_buffer);
+    std::string incoming_input = recv_buffer;
+    std::string incoming_command = getCommandFromInput(incoming_input);
+    std::string incoming_message = getMessageFromInput(incoming_input);
+
+    if (incoming_command == "msg"){
+      handleClientMsg(incoming_message, fd);
+    }
+    else if (incoming_command == "register"){
+      handleClientRegister(incoming_message, fd);
+    }
+    else if (incoming_command == "goto"){
+      handleClientGoto(incoming_message, fd);
+    }
+    else if (incoming_command == "create"){
+      handleChannelCreate(incoming_message, fd);
+    }
+    else if (incoming_command == "list"){
+      handleChannelList(incoming_message, fd);
+    }
+    else{
+      std::cout<<"Inappropriate command found on server"<<std::endl;
+      std::cout<<"Available commands: msg, register, goto, create, list"<<std::endl;
+    }
     send(fd, recv_buffer, bytes_read, 0);  // echo
     SPDLOG_INFO("Echo message sent");
   } else if (bytes_read == 0) {
@@ -68,9 +99,18 @@ void tt::chat::server::Server::readIncomingMessage(int fd){
   }
 }
 
-void tt::chat::server::Server::setSocketOptions(int sock, int opt) {
-  using namespace tt::chat;
-  auto err_code = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-                             &opt, sizeof(opt));
-  check_error(err_code < 0, "setsockopt() error\n");
+void tt::chat::server::Server::handleClientMsg(std::string incoming_message, int fd){
+  return;
+}
+void tt::chat::server::Server::handleClientRegister(std::string incoming_message, int fd){
+  return;
+}
+void tt::chat::server::Server::handleClientGoto(std::string incoming_message, int fd){
+  return;
+}
+void tt::chat::server::Server::handleChannelCreate(std::string incoming_message, int fd){
+  return;
+}
+void tt::chat::server::Server::handleChannelList(std::string incoming_message, int fd){
+  return;
 }
