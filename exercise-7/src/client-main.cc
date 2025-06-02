@@ -39,6 +39,7 @@ int main() {
     input_message = getMessageFromInput(input_received);
 
     if (checkTermination(input_command)){break;}
+    else if(input_command == "msg")
     std::string response = client.send_and_receive_message(input_message);
     std::cout<<response<<std::endl;
   }
