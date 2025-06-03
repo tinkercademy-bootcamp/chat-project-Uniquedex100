@@ -59,3 +59,34 @@ std::vector<int> Database::fetchChannelList(){
   }
   return channels_list;
 }
+
+int Database::checkValidUsername(std::string username){
+  if (username != "") return 0;
+  else return -1;
+}
+
+std::string Database::fetchUsernameFromClient(int client_id){
+  if (client_to_username.find(client_id) == client_to_username.end()){
+    return "";
+  }
+  return client_to_username[client_id];
+}
+
+int Database::fetchClientFromUsername(std::string username){
+  if (username_to_client.find(username) == username_to_client.end()){
+    return -1;
+  }
+  return username_to_client[username];
+}
+
+int Database::assignUsernameToClient(int client_id, std::string username){
+  int status = checkValidUsername(username);
+  if (status < 0) return -1;
+  std::string prev_username = fetchUsernameFromClient(client_id);
+  int prev_client_id = fetchClientFromUsername(username);
+
+  if (prev_client_id != -1) return -2;
+  client_to_username[client_id] = username;
+  username_to_client[username] = client_id;
+  return 0;
+}
