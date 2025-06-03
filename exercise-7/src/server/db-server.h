@@ -33,7 +33,10 @@ public:
   int addClientToChannel(int client_id, int channel_id);
   std::vector<int> fetchChannelsClients(int channel_id);
   std::vector<int> fetchChannelList();
-
+  int checkValidUsername(std::string username);
+  std::string fetchUsernameFromClient(int client_id);
+  int fetchClientFromUsername(std::string username);
+  int assignUsernameToClient(int client_id, std::string username);
 
 private: 
   int max_channel_id;
@@ -41,6 +44,7 @@ private:
   std::map<int, int> client_to_channel;
   std::map<int, std::vector<MsgEntry>> channel_to_msgs;
   std::map<int, std::string> client_to_username;
+  std::map<std::string, int> username_to_client;
 };
 
 #endif
