@@ -25,6 +25,7 @@ tt::chat::server::Server::Server(int port)
   socket_event.data.fd = socket_;
   int status = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, socket_, &socket_event);
   check_error(status == -1, "epoll_ctl socket failed");
+
 }
 
 void tt::chat::server::Server::setSocketOptions(int sock, int opt) {
@@ -105,7 +106,7 @@ void tt::chat::server::Server::handleClientMsg(std::string incoming_message, int
     send(fd, message_to_send.c_str(), message_to_send.size(), 0);
     return;
   }
-  message_to_send = incoming_message;
+  message_to_send = std::to_string(client_id) + ": " + incoming_message;
   std::vector<int> clients_in_channel = db.fetchChannelsClients(channel_id);
   for(auto clt: clients_in_channel){
     send(clt, message_to_send.c_str(), message_to_send.size(), 0);
