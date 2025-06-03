@@ -53,6 +53,7 @@ Function Specifications for database:
     - The client then interacts with server and does things accordingly.
     - For messages, planning to follow this format: "Command/Message".
     - Implement an escape character as well.
+    - Before implementing username, I want to sort out the login portion too.
 
 Make a shell script which can launch multiple clients at the same time.
 All the clients will connect to server at the same time.
