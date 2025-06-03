@@ -85,8 +85,6 @@ void tt::chat::server::Server::readIncomingInput(int fd){
       std::cout<<"Inappropriate command found on server"<<std::endl;
       std::cout<<"Available commands: msg, register, goto, create, list"<<std::endl;
     }
-    send(fd, recv_buffer, bytes_read, 0);  // echo
-    SPDLOG_INFO("Echo message sent");
   } else if (bytes_read == 0) {
     SPDLOG_INFO("Client disconnected.");
     epoll_ctl(epoll_fd, EPOLL_CTL_DEL, fd, nullptr);
@@ -99,17 +97,87 @@ void tt::chat::server::Server::readIncomingInput(int fd){
 }
 
 void tt::chat::server::Server::handleClientMsg(std::string incoming_message, int fd){
+  int client_id = fd;
+  int channel_id = db.fetchClientsChannel(client_id);
+  std::string message_to_send;
+  if (channel_id == -1){
+    message_to_send = "Please Goto some channel to send any message\n";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+    return;
+  }
+  message_to_send = incoming_message;
+  std::vector<int> clients_in_channel = db.fetchChannelsClients(channel_id);
+  for(auto clt: clients_in_channel){
+    send(clt, message_to_send.c_str(), message_to_send.size(), 0);
+  }
   return;
 }
 void tt::chat::server::Server::handleClientRegister(std::string incoming_message, int fd){
+  int client_id = fd;
+  int channel_id;
+  std::string message_to_send;
+
+  try {
+    channel_id = std::stoi(incoming_message);
+  } catch (...) {
+    message_to_send = "Invalid channel ID. Please enter a number.\n";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+    return;
+  }
+
+  int status = db.addClientToChannel(client_id, channel_id);
+  if (status == -1){
+    message_to_send = "Please select a valid channel\n";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+  }
+  else{
+    message_to_send = "You are now on channel: " + std::to_string(channel_id) + "\n";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+  }
   return;
 }
 void tt::chat::server::Server::handleClientGoto(std::string incoming_message, int fd){
+  int client_id = fd;
+  int channel_id;
+  std::string message_to_send;
+
+  try {
+    channel_id = std::stoi(incoming_message);
+  } catch (...) {
+    message_to_send = "Invalid channel ID. Please enter a number.\n";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+    return;
+  }
+
+  int status = db.addClientToChannel(client_id, channel_id);
+  if (status == -1){
+    message_to_send = "Please select a valid channel\n";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+  }
+  else{
+    message_to_send = "You are now on channel: " + std::to_string(channel_id) + "\n";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+  }
   return;
 }
 void tt::chat::server::Server::handleChannelCreate(std::string incoming_message, int fd){
+  int client_id = fd;
+  int channel_id = db.createNewChannel();
+  check_error(channel_id == -1, "Error creating new channel");
+  int status = db.addClientToChannel(client_id, channel_id);
+  check_error(status == -1, "Error adding client to channel");
+  std::string message_to_send = "Channel ID created: " + std::to_string(channel_id) + "\n";
+  send(fd, message_to_send.c_str(), message_to_send.size(), 0);
   return;
 }
 void tt::chat::server::Server::handleChannelList(std::string incoming_message, int fd){
+  std::string message_to_send = "Available Channels: ";
+  std::vector<int> channels_list = db.fetchChannelList();
+  for(auto channel_id: channels_list){
+    std::string to_add = std::to_string(channel_id);
+    message_to_send = message_to_send + to_add;
+  }
+  message_to_send += "\n";
+  send(fd, message_to_send.c_str(), message_to_send.size(), 0);
   return;
 }
