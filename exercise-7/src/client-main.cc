@@ -10,6 +10,7 @@
 
 #include "client/chat-client.h"
 #include "net/chat-sockets.h"
+#include "../utils.h"
 
 namespace {
 std::string read_args(int argc, char *argv[]) {
@@ -27,6 +28,8 @@ std::string read_args(int argc, char *argv[]) {
 }
 
 int main() {
+  // tt::chat::init_ncurses();
+
   const int kPort = 8080;
   const std::string kServerAddress = "127.0.0.1";
   tt::chat::client::Client client{kPort, kServerAddress};
@@ -47,6 +50,7 @@ int main() {
       if (fd == STDIN_FILENO) {
         std::string input_received;
         std::getline(std::cin, input_received);  // getline helps get full lines
+        // input_received = tt::chat::get_input();
         std::string input_command = getCommandFromInput(input_received);
         std::string input_message = getMessageFromInput(input_received);
 
@@ -89,5 +93,7 @@ int main() {
       }
     }
   }
+
+  // tt::chat::end_ncurses();
   return 0;
 }
