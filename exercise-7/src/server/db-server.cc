@@ -51,3 +51,11 @@ std::vector<int> Database::fetchChannelsClients(int channel_id){
   }
   return channel_to_clients[channel_id];
 }
+
+std::vector<int> Database::fetchChannelList(){
+  std::vector<int> channels_list;
+  for(int i = 1; i <= max_channel_id; i++){
+    channels_list.push_back(i);
+  }
+  return channels_list;
+}

@@ -23,15 +23,17 @@ To Implement:
 
 Current Assumptions: 
   - Every user can join/create any channel.
+  - Keeping the register and goto same for now.
 
 API Specification: (user side)
   - msg/channel-id/message: sends a message to channel-id channel
   - register/channel-id: user is now a part of channel-id channel
+    (for now register and goto are the same)
   - goto/channel-id: user is now at channel-id if user is already 
     registered and will receive all the corresponding messages to this 
     channel
   - create/ : creates a new channel, user gets the channel-id in return
-    user is by default a part of this channel
+    user by default goes to this channel
   - list/ : lists all the channels that are present on the server along 
     with their channel ids. User may register to any
   - 
