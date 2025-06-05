@@ -14,29 +14,60 @@
 
 - Compile the TCP client and server using `g++` from command line.
 - What are the most important command line arguments to learn for `g++`?
+  - The -o that is used to specify the output file, the optimization flags which are used for specifying optimizations while compiling the code, the -I that is used to add a directory where we can search for header files, -Werror that treats all the warnings as errors, C++ standards: -std=c++17 and all that allow us to specify the c++ standards.
+
 - What is the difference between debug vs release versions?
+  - Debug versions are made while the program is still being written, helps us debug the code easily, whereas release version is targeted towards delivering the final product.
+g++ flags for release build:  -O2, -DNDEBUG, etc.
+g++ flags for debug build: -g, -O0, -Wall, etc.
 - What are the tradeoffs between debug and release versions?
+  - Debug version: Slower execution, Larger binary size(includes debug symbols), easier to debug, code structure is preserved, tracable, etc.
+Release version: Optimized for faster execution, smaller binary sizes, really hard to debug, code structure is altered, nontracable, stacks may be unclear, etc.
 - What arguments would you use in a debug build?
+  - g++ flags for debug build: -g, -O0, -Wall, etc.
 - What about for release?
+  - g++ flags for release build:  -O2, -DNDEBUG, etc.
 - What other kinds of build types are useful?
+  - RelWithDebInfo: Optimized performance and the ability to debug.
+MinSizeRel: When we need to reduce the binary size
+Testing/Coverage builds, etc.
 
 ## Learn Basics of Make
 
 - Create a Makefile that will speed up the process.
-- [Quickstart tutorial to make](https://makefiletutorial.com/) - Learn make 
-  fundamentals with practical examples and common patterns.
+- [Quickstart tutorial to make](https://makefiletutorial.com/) - Learn make fundamentals with practical examples and common patterns.
 - How else can you learn about make?
+  - Using official documentation.
 - How can you tell if the resource you are using is correct?
+  - Because it is official and verified.
 - Create a makefile such that when you run `make` with no arguments, it will:
   - Create `build/` directory if it does not exist
   - Create executables **client** and **server** in `build/`, if needed
   - How does make know when it needs to rebuild the executables?
-  - Change your Makefile such that `make clean` will remove `build/` and all
-    its contents
+Rebuild happens if either the target file does not exist, or any dependency is newer than the target.
+  - Change your Makefile such that `make clean` will remove `build/` and all its contents
+    - Done
 - What are the most important command line arguments to learn for make?
+  - target: Just after the make command.
+  - -j: run n jobs in parallel
+  - VARIABLE=value: override makefile variables on the command line.
 - What are the most important directives to learn about in Makefile?
+  - target: dependencies
+  commands
+  - Pattern rules: allow defining rules for multiple files using patterns: 
+  - % character acts as a wildcard.
+  - variable definitions
+  - Include directives for makefiles (to add rules from other makefiles)
+  - Conditional directives for makefiles (ifdef else endif)
+  - Phony targets: do not represent files, such as clean and all.
+  They are always executed when called.
+  $@: The target file name.
+  $<: The first dependency.
+  $^: All dependencies.
 - What are the most important commands to implement in your Makefile?
+  - directives for all and clean.
 - Which ones are essential, which ones are nice to haves?
+  - all is essential, clean is nice to have.
 
 ## Learn Basics of Git
 
