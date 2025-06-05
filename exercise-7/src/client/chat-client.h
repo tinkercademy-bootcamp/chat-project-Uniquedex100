@@ -13,11 +13,11 @@ public:
 
   Client(int port, const std::string &server_address);
   std::string send_and_receive_message(const std::string &message);
-  std::string clientSendMsg(std::string &message);
-  std::string clientSendRegister(std::string &message);
-  std::string clientSendGoto(std::string &message);
-  std::string clientSendCreate(std::string &message);
-  std::string clientSendList(std::string &message);
+  void clientSendMsg(const std::string &message);
+  void clientSendRegister(const std::string &message);
+  void clientSendGoto(const std::string &message);
+  void clientSendCreate(const std::string &message);
+  void clientSendList(const std::string &message);
 
   ~Client();
 

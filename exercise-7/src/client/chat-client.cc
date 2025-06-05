@@ -47,35 +47,30 @@ std::string tt::chat::client::Client::send_and_receive_message(
   }
 }
 
-std::string tt::chat::client::Client::clientSendMsg(std::string &message){
+void tt::chat::client::Client::clientSendMsg(const std::string &message){
   using namespace tt::chat;
   send(socket_, message.c_str(), message.size(), 0);
   std::cout << "Sent: " << message << "\n";
-  return "";
 }
-std::string tt::chat::client::Client::clientSendRegister(std::string &message){
+void tt::chat::client::Client::clientSendRegister(const std::string &message){
   using namespace tt::chat;
   send(socket_, message.c_str(), message.size(), 0);
   std::cout << "Sent: " << message << "\n";
-  return "";
 }
-std::string tt::chat::client::Client::clientSendGoto(std::string &message){
+void tt::chat::client::Client::clientSendGoto(const std::string &message){
   using namespace tt::chat;
   send(socket_, message.c_str(), message.size(), 0);
   std::cout << "Sent: " << message << "\n";
-  return "";
 }
-std::string tt::chat::client::Client::clientSendCreate(std::string &message){
+void tt::chat::client::Client::clientSendCreate(const std::string &message){
   using namespace tt::chat;
   send(socket_, message.c_str(), message.size(), 0);
   std::cout << "Sent: " << message << "\n";
-  return "";
 }
-std::string tt::chat::client::Client::clientSendList(std::string &message){
+void tt::chat::client::Client::clientSendList(const std::string &message){
   using namespace tt::chat;
   send(socket_, message.c_str(), message.size(), 0);
   std::cout << "Sent: " << message << "\n";
-  return "";
 }
 
 tt::chat::client::Client::~Client() { close(socket_); close(epoll_fd);}
