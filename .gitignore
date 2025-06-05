@@ -68,6 +68,7 @@ build/
 
 # Earlier I tried to ignore extensionless binaries, but wasn't useful
 # ignore some binaries deliberately
+**/build/
 **/tcp_echo_server
 **/tcp_echo_client
 **/tcp_echo
