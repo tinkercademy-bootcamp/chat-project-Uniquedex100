@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int main() {
-  const int kPort = 8080;
+  const int kPort = 35000;
   sockaddr_in address;
   socklen_t addrlen = sizeof(address);
   const int kBufferSize = 1024;
@@ -17,6 +17,10 @@ int main() {
     std::cerr << "Socket creation erron\n";
     return -1;
   }
+  //   if ((my_sock = socket(AF_INET6, SOCK_STREAM, 0)) < 0) {
+  //   std::cerr << "Socket creation erron\n";
+  //   return -1;
+  // }
   // Attaching socket to port
   if (setsockopt(my_sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt,
                  sizeof(opt))) {
@@ -24,7 +28,10 @@ int main() {
     return -1;
   }
   address.sin_family = AF_INET;
+  // address.sin_family = AF_INET6;
+
   address.sin_addr.s_addr = INADDR_ANY;
+  // address.sin_addr.s_addr = in6addr_any;
   address.sin_port = htons(kPort);
   // Bind the socket to the network address and port
   if (bind(my_sock, (sockaddr *)&address, sizeof(address)) < 0) {

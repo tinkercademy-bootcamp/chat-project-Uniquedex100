@@ -8,15 +8,12 @@ CXXFLAGS :=-std=c++20 -Wall -Wextra -pedantic -fsanitize=address
 
 CXX_DEBUG_FLAGS :=-g3 -ggdb3
 CXX_RELEASE_FLAGS :=-O3
+CXX_ASSEMBLY_FLAGS :=-S -masm=intel -fverbose-asm -fno-asynchronous-unwind-tables -fno-rtti 
 
 CXXFLAGS += $(CXX_DEBUG_FLAGS)
 
 # The linker flags. These are passed to the linker when we link our object files together.
 LDFLAGS := -fsanitize=address
-
-LIBS:= fmt spdlog ncurses
-LIB_FLAGS := $(addprefix -l,$(LIBS))
-LDFLAGS += $(LIB_FLAGS)
 
 BUILD_DIR := build
 SRC_DIR := src
@@ -29,7 +26,10 @@ SRCS := $(shell find $(SRC_DIR) -type f -name '*.cc')
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
-NON_MAIN_OBJS := $(filter-out %main.cc.o, $(OBJS))
+NON_MAIN_OBJS := $(filter-out %class.cc.o, $(OBJS))
+NON_MAIN_OBJS := $(filter-out %main.cc.o, $(NON_MAIN_OBJS))
+
+ASMS := $(SRCS:%=$(BUILD_DIR)/%.s)
 
 # String substitution (suffix version without %).
 # As an example, ./build/hello.cpp.o turns into ./build/hello.cpp.d
@@ -46,24 +46,33 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
 all: $(BUILD_DIR)/server $(BUILD_DIR)/client
-	
-$(BUILD_DIR)/server: $(BUILD_DIR)/src/server-main.cc.o $(NON_MAIN_OBJS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(BUILD_DIR)/src/server-main.cc.o $(NON_MAIN_OBJS) -o $(BUILD_DIR)/server $(LDFLAGS)
+	@echo SRCS=$(SRCS)
+	@echo OBJS=$(OBJS)
+	@echo NON_MAIN_OBJS=$(NON_MAIN_OBJS)	
+	@echo DEPS=$(DEPS)
+	@echo INC_FLAGS=$(INC_FLAGS)
+	@echo "--------------------------------"
+	@echo "\n\n"
+	mkdir -p $(BUILD_DIR)
 
-$(BUILD_DIR)/client: $(BUILD_DIR)/src/client-main.cc.o $(NON_MAIN_OBJS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(BUILD_DIR)/src/client-main.cc.o $(NON_MAIN_OBJS) -o $(BUILD_DIR)/client $(LDFLAGS)
+$(BUILD_DIR)/server: $(BUILD_DIR)/src/server-class.cc.o $(NON_MAIN_OBJS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(BUILD_DIR)/src/server-class.cc.o $(NON_MAIN_OBJS) -o $(BUILD_DIR)/server $(LDFLAGS)
+
+$(BUILD_DIR)/client: $(BUILD_DIR)/src/client-class.cc.o $(NON_MAIN_OBJS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(BUILD_DIR)/src/client-class.cc.o $(NON_MAIN_OBJS) -o $(BUILD_DIR)/client $(LDFLAGS)
 
 $(BUILD_DIR)/%.cc.o: %.cc
 	mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+  
 
-.PHONY: print-vars
-print-vars:
-	@echo "SRCS=$(SRCS)"
-	@echo "OBJS=$(OBJS)"
-	@echo "NON_MAIN_OBJS=$(NON_MAIN_OBJS)"
-	@echo "DEPS=$(DEPS)"
-	@echo "INC_FLAGS=$(INC_FLAGS)"
+$(BUILD_DIR)/%.cc.s: %.cc
+	mkdir -p $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CXX_ASSEMBLY_FLAGS) $< -o $@
+
+.PHONY: assembly
+assembly: $(ASMS)
+	mkdir -p $(BUILD_DIR)
 
 .PHONY: clean
 clean:

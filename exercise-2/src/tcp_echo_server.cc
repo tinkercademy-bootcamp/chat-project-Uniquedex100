@@ -78,6 +78,8 @@ void handle_connections(int sock, int port) {
   socklen_t address_size = sizeof(address);
 
   // #Question - is it good to have an infinite loop?
+  // Currently we are busy waiting on the connections, it is good if we don't have
+  // many things to do.
   while (true) {
     int accepted_socket = accept(sock, (sockaddr *)&address, &address_size);
     if (accepted_socket < 0) {
@@ -95,6 +97,7 @@ int main() {
   sockaddr_in address = create_address(kPort);
 
   // #Question - is there a better name for this function?
+  // Yes, probably bind_and_listen()
   start_listening_on_socket(my_socket, address);
   std::cout << "Server listening on port " << kPort << "\n";
   handle_connections(my_socket, kPort);

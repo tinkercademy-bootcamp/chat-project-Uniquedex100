@@ -40,7 +40,8 @@ Thumbs.db
 *.gcov
 
 /bin/
-/build/
+**/build/
+build/
 /pkg/
 /vendor/
 *.test
@@ -64,3 +65,11 @@ Thumbs.db
 /.classpath
 /.project
 /.settings/
+
+# Earlier I tried to ignore extensionless binaries, but wasn't useful
+# ignore some binaries deliberately
+**/build/
+**/tcp_echo_server
+**/tcp_echo_client
+**/tcp_echo
+**/experiment
