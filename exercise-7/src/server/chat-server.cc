@@ -97,7 +97,7 @@ void tt::chat::server::Server::readIncomingInput(int fd){
   }
 }
 
-void tt::chat::server::Server::handleClientMsg(std::string incoming_message, int fd){
+void tt::chat::server::Server::handleClientMsg(const std::string incoming_message, int fd){
   int client_id = fd;
   int channel_id = db.fetchClientsChannel(client_id);
   std::string message_to_send;
@@ -113,7 +113,7 @@ void tt::chat::server::Server::handleClientMsg(std::string incoming_message, int
   }
   return;
 }
-void tt::chat::server::Server::handleClientRegister(std::string incoming_message, int fd){
+void tt::chat::server::Server::handleClientRegister(const std::string incoming_message, int fd){
   int client_id = fd;
   int channel_id;
   std::string message_to_send;
@@ -137,7 +137,7 @@ void tt::chat::server::Server::handleClientRegister(std::string incoming_message
   }
   return;
 }
-void tt::chat::server::Server::handleClientGoto(std::string incoming_message, int fd){
+void tt::chat::server::Server::handleClientGoto(const std::string incoming_message, int fd){
   int client_id = fd;
   int channel_id;
   std::string message_to_send;
@@ -161,7 +161,7 @@ void tt::chat::server::Server::handleClientGoto(std::string incoming_message, in
   }
   return;
 }
-void tt::chat::server::Server::handleChannelCreate(std::string incoming_message, int fd){
+void tt::chat::server::Server::handleChannelCreate(const std::string incoming_message, int fd){
   int client_id = fd;
   int channel_id = db.createNewChannel();
   check_error(channel_id == -1, "Error creating new channel");
@@ -171,7 +171,7 @@ void tt::chat::server::Server::handleChannelCreate(std::string incoming_message,
   send(fd, message_to_send.c_str(), message_to_send.size(), 0);
   return;
 }
-void tt::chat::server::Server::handleChannelList(std::string incoming_message, int fd){
+void tt::chat::server::Server::handleChannelList(const std::string incoming_message, int fd){
   std::string message_to_send = "Available Channels: ";
   std::vector<int> channels_list = db.fetchChannelList();
   for(auto channel_id: channels_list){

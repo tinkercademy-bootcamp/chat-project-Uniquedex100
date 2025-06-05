@@ -26,11 +26,11 @@ private:
   static constexpr int kBufferSize = 1024;
 
   static void setSocketOptions(int sock, int opt);
-  void handleClientMsg(std::string incoming_message, int fd);
-  void handleClientRegister(std::string incoming_message, int fd);
-  void handleClientGoto(std::string incoming_message, int fd);
-  void handleChannelCreate(std::string incoming_message, int fd);
-  void handleChannelList(std::string incoming_message, int fd);
+  void handleClientMsg(const std::string incoming_message, int fd);
+  void handleClientRegister(const std::string incoming_message, int fd);
+  void handleClientGoto(const std::string incoming_message, int fd);
+  void handleChannelCreate(const std::string incoming_message, int fd);
+  void handleChannelList(const std::string incoming_message, int fd);
 };
 } // namespace tt::chat::server
 
