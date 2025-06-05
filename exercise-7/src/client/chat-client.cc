@@ -72,6 +72,11 @@ void tt::chat::client::Client::clientSendList(const std::string &message){
   send(socket_, message.c_str(), message.size(), 0);
   std::cout << "Sent: " << message << "\n";
 }
+void tt::chat::client::Client::clientSendUsername(const std::string &message){
+  using namespace tt::chat;
+  send(socket_, message.c_str(), message.size(), 0);
+  std::cout << "Sent: " << message << "\n";
+}
 
 tt::chat::client::Client::~Client() { close(socket_); close(epoll_fd);}
 

@@ -18,6 +18,7 @@ public:
   void clientSendGoto(const std::string &message);
   void clientSendCreate(const std::string &message);
   void clientSendList(const std::string &message);
+  void clientSendUsername(const std::string &message);
 
   ~Client();
 

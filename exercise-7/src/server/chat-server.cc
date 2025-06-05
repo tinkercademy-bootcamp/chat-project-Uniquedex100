@@ -82,6 +82,9 @@ void tt::chat::server::Server::readIncomingInput(int fd){
     else if (incoming_command == "list"){
       handleChannelList(incoming_message, fd);
     }
+    else if (incoming_command == "username"){
+      handleClientUsername(incoming_message, fd);
+    }
     else{
       std::cout<<"Inappropriate command found on server"<<std::endl;
       std::cout<<"Available commands: msg, register, goto, create, list"<<std::endl;
@@ -106,7 +109,11 @@ void tt::chat::server::Server::handleClientMsg(const std::string incoming_messag
     send(fd, message_to_send.c_str(), message_to_send.size(), 0);
     return;
   }
-  message_to_send = std::to_string(client_id) + ": " + incoming_message;
+  std::string username = db.fetchUsernameFromClient(client_id);
+  if (username != ""){
+    message_to_send = username + ": " + incoming_message;
+  }
+  else{ message_to_send = std::to_string(client_id) + ": " + incoming_message;}
   std::vector<int> clients_in_channel = db.fetchChannelsClients(channel_id);
   for(auto clt: clients_in_channel){
     send(clt, message_to_send.c_str(), message_to_send.size(), 0);
@@ -181,4 +188,24 @@ void tt::chat::server::Server::handleChannelList(const std::string incoming_mess
   message_to_send += "\n";
   send(fd, message_to_send.c_str(), message_to_send.size(), 0);
   return;
+}
+
+
+void tt::chat::server::Server::handleClientUsername(const std::string incoming_message, int fd){
+  int client_id = fd;
+  std::string username = incoming_message;
+  std::string message_to_send;
+  int status = db.assignUsernameToClient(fd, username);
+  if (status == -1){
+    message_to_send = "Please select some valid username";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+  }
+  else if(status == -2){
+    message_to_send = "This username is already in use by someone, please select another";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+  }
+  else{
+    message_to_send = "Your username has been successfully updated";
+    send(fd, message_to_send.c_str(), message_to_send.size(), 0);
+  }
 }

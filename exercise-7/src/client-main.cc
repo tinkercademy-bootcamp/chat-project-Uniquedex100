@@ -73,6 +73,9 @@ int main() {
         else if (input_command == "list") {
           client.clientSendList(input_received);
         } 
+        else if (input_command == "username") {
+          client.clientSendUsername(input_received);
+        }
         else{
           std::cout<<"Inappropriate command found, usage: "<<std::endl;
           std::cout<<"Command/Message"<<std::endl;

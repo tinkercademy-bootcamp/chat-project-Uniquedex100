@@ -31,6 +31,7 @@ private:
   void handleClientGoto(const std::string incoming_message, int fd);
   void handleChannelCreate(const std::string incoming_message, int fd);
   void handleChannelList(const std::string incoming_message, int fd);
+  void handleClientUsername(const std::string incoming_message, int fd);
 };
 } // namespace tt::chat::server
 
